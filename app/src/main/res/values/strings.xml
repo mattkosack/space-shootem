@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Space Shoot em</string>
+    <string name="title">Space Shootem</string>
+    <string name="start_game">START GAME</string>
+    <string name="settings">SETTINGS</string>
+    <string name="highscores">HIGHSCORES</string>
+    <string name="website">WEBSITE</string>
+</resources>
