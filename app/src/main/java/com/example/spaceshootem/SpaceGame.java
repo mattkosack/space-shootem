@@ -71,7 +71,7 @@ public class SpaceGame {
     public void startGame(int width, int height) {
         this.width = width;
         this.height = height;
-        player = new PlayerShip(); // TODO:
+//        player = new PlayerShip(); // TODO:
         score = 0;
         enemies.clear();
         gameOver = false;
@@ -120,13 +120,10 @@ public class SpaceGame {
     }
 
     /**
-     * "Touch" the game at a particular point. If the snake is touched
-     * anywhere, the game is over. If the food is touched, it moves. If a wall
-     * is touched, it is removed.
-     * @param pt the touched point
+     * If the screen is touched, the playership will fire
      * @return true if the game is still going, false if the game is now over
      */
-    public boolean touched(PointF pt) {
+    public boolean touched() {
         if (gameOver) { return false; }
 
 //        TODO
@@ -136,5 +133,10 @@ public class SpaceGame {
     }
 
 
+    public PointF getPlayerLocation() {
+        return player.getPosition();
+    }
 
+    public PointF[] getEnemyLocations() {
+    }
 }

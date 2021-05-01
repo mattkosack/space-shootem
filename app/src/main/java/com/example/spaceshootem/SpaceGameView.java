@@ -34,7 +34,6 @@ public class SpaceGameView extends View implements SensorEventListener {
     /** The paints and drawables used for the different parts of the game */
     private final Paint scorePaint = new Paint();
     private final Paint playerPaint = new Paint();
-    private final Paint wallPaint = new Paint();
     private final Paint enemyPaint = new Paint();
 
     // The game's difficulty; default to easy
@@ -51,10 +50,8 @@ public class SpaceGameView extends View implements SensorEventListener {
     private final SpaceGame spaceGame;
 
     /** The difficulty settings. Each index corresponds to difficulty (i.e. index 0 is easy) */
-    private final int[] LENGTH_INCREASES_PER_FOOD = { 8, 10, 13, 15, 20 };
     private final int[] STARTING_LENGTHS = { 25, 35, 45, 55, 65 };
     private final double[] INITIAL_SPEED = { 1.0, 1.2, 1.4, 1.6, 2 };
-    private final double[] SPEED_INCREASE_PER_FOOD = { 0.1, 0.1, 0.125, 0.15, 0.4 };
     private final double[] WALL_PLACEMENT_PROBABILITIES = { 0.005, 0.02, 0.04, 0.06, 0.1 };
 
     // Required constructors for making your own view that can be placed in a layout
@@ -69,7 +66,7 @@ public class SpaceGameView extends View implements SensorEventListener {
         spaceGame = new SpaceGame();
 
         // This color is automatically painted as the background
-        setBackgroundColor(0xFF333333);
+        setBackgroundColor(0xFF333333); //TODO: have these based off of settings
 
         // Setup all of the paints and drawables used for drawing later
         scorePaint.setColor(Color.WHITE);
@@ -78,8 +75,7 @@ public class SpaceGameView extends View implements SensorEventListener {
         scorePaint.setTextSize(spToPx(24)); // use sp for text
         scorePaint.setFakeBoldText(true);
 
-        playerPaint.setColor(Color.GREEN);
-        wallPaint.setColor(Color.BLACK);
+        playerPaint.setColor(Color.GREEN); //TODO: have these based off of settings
         enemyPaint.setColor(Color.RED);
     }
 
@@ -142,10 +138,9 @@ public class SpaceGameView extends View implements SensorEventListener {
                 ((Activity) getContext()).finish();
             }
         }
-        PointF pf = new PointF(event.getX(), event.getY());
-        spaceGame.touched(pf);
+        spaceGame.touched();
         invalidate();
-        return spaceGame.touched(pf);
+        return spaceGame.touched();
     }
 
     @Override
@@ -175,14 +170,16 @@ public class SpaceGameView extends View implements SensorEventListener {
 
         spaceGame.update();
 
-        // Draw the snake
-        for (PointF pt : spaceGame.getSnakeBodyLocations()) { canvas.drawCircle(pt.x, pt.y, PlayerShip.BODY_PIECE_SIZE_DP, playerPaint); }
+        // TODO: Probably be a triangle or something
+        // Draw the Player
+        PointF player = spaceGame.getPlayerLocation();
+        canvas.drawCircle(player.x, player.y, PlayerShip.BODY_PIECE_SIZE_DP, playerPaint);
 
-        // Draw the walls
-        for (PointF pt : spaceGame.getWallLocations()) { canvas.drawCircle(pt.x, pt.y, PlayerShip.BODY_PIECE_SIZE_DP, wallPaint); }
-
-        // Draw the food
-        canvas.drawCircle(spaceGame.getFoodLocation().x, spaceGame.getFoodLocation().y, PlayerShip.BODY_PIECE_SIZE_DP, enemyPaint);
+        // TODO: Probably be triangles or something
+        // Draw the enemies
+        for (PointF pt : spaceGame.getEnemyLocations()) {
+            canvas.drawCircle(pt.x, pt.y, PlayerShip.BODY_PIECE_SIZE_DP, enemyPaint);
+        }
 
         // Draw score
         String text = Integer.toString(spaceGame.getScore());
