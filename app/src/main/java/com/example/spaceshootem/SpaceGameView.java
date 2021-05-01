@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -18,7 +17,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.res.ResourcesCompat;
 
 
 // TODO: THIS IS JUST THE SNAKEGAMEVIEW FROM PROJECT 2
@@ -32,12 +30,12 @@ import androidx.core.content.res.ResourcesCompat;
  * declared that don't have documentation). You will also need to add at least
  * a few methods to this class.
  */
-public class SpaceShootemGameView extends View implements SensorEventListener {
+public class SpaceGameView extends View implements SensorEventListener {
     /** The paints and drawables used for the different parts of the game */
     private final Paint scorePaint = new Paint();
-    private final Paint snakePaint = new Paint();
+    private final Paint playerPaint = new Paint();
     private final Paint wallPaint = new Paint();
-    private final Paint foodPaint = new Paint();
+    private final Paint enemyPaint = new Paint();
 
     // The game's difficulty; default to easy
     private String difficulty = "Easy";
@@ -50,7 +48,7 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
     private final DisplayMetrics displayMetrics;
 
     /** The snake game for the logic behind this view */
-    private final SpaceShootemGame snakeGame;
+    private final SpaceGame spaceGame;
 
     /** The difficulty settings. Each index corresponds to difficulty (i.e. index 0 is easy) */
     private final int[] LENGTH_INCREASES_PER_FOOD = { 8, 10, 13, 15, 20 };
@@ -60,15 +58,15 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
     private final double[] WALL_PLACEMENT_PROBABILITIES = { 0.005, 0.02, 0.04, 0.06, 0.1 };
 
     // Required constructors for making your own view that can be placed in a layout
-    public SnakeGameView(Context context) { this(context, null);  }
-    public SnakeGameView(Context context, @Nullable AttributeSet attrs) {
+    public SpaceGameView(Context context) { this(context, null);  }
+    public SpaceGameView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         // Get the metrics for the display so we can later convert between dp, sp, and px
         displayMetrics = context.getResources().getDisplayMetrics();
 
         // Make the game
-        snakeGame = new SpaceShootemGame();
+        spaceGame = new SpaceGame();
 
         // This color is automatically painted as the background
         setBackgroundColor(0xFF333333);
@@ -80,15 +78,15 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
         scorePaint.setTextSize(spToPx(24)); // use sp for text
         scorePaint.setFakeBoldText(true);
 
-        snakePaint.setColor(Color.GREEN);
+        playerPaint.setColor(Color.GREEN);
         wallPaint.setColor(Color.BLACK);
-        foodPaint.setColor(Color.RED);
+        enemyPaint.setColor(Color.RED);
     }
 
     /**
      * @return the snake game for this view
      */
-    public SpaceShootemGame getSnakeGame() { return snakeGame; }
+    public SpaceGame getSpaceGame() { return spaceGame; }
 
     /**
      * Utility function to convert dp units to px units. All Canvas and Paint
@@ -112,11 +110,11 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
      * @param difficulty the new difficulty for the game
      */
     public void setDifficulty(int difficulty, String difficultyName) {
-        snakeGame.setLengthIncreasePerFood(LENGTH_INCREASES_PER_FOOD[difficulty]);
-        snakeGame.setStartingLength(STARTING_LENGTHS[difficulty]);
-        snakeGame.setInitialSpeed(INITIAL_SPEED[difficulty]);
-        snakeGame.setSpeedIncreasePerFood(SPEED_INCREASE_PER_FOOD[difficulty]);
-        snakeGame.setWallPlacementProbability(WALL_PLACEMENT_PROBABILITIES[difficulty]);
+        spaceGame.setLengthIncreasePerFood(LENGTH_INCREASES_PER_FOOD[difficulty]);
+        spaceGame.setStartingLength(STARTING_LENGTHS[difficulty]);
+        spaceGame.setInitialSpeed(INITIAL_SPEED[difficulty]);
+        spaceGame.setSpeedIncreasePerFood(SPEED_INCREASE_PER_FOOD[difficulty]);
+        spaceGame.setWallPlacementProbability(WALL_PLACEMENT_PROBABILITIES[difficulty]);
 
         this.difficulty = difficultyName;
     }
@@ -131,23 +129,23 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         // NOTE: this function is done for you
         super.onLayout(changed, left, top, right, bottom);
-        if (snakeGame.hasNotStarted()) {
-            snakeGame.startGame(right - left, bottom - top);
-            snakeGame.setDpToPxFactor(displayMetrics.density);
+        if (spaceGame.hasNotStarted()) {
+            spaceGame.startGame(right - left, bottom - top);
+            spaceGame.setDpToPxFactor(displayMetrics.density);
         }
         invalidate();
     }
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        if (snakeGame.isGameOver()) {
+        if (spaceGame.isGameOver()) {
             if (getContext() instanceof Activity) {
                 ((Activity) getContext()).finish();
             }
         }
         PointF pf = new PointF(event.getX(), event.getY());
-        snakeGame.touched(pf);
+        spaceGame.touched(pf);
         invalidate();
-        return snakeGame.touched(pf);
+        return spaceGame.touched(pf);
     }
 
     @Override
@@ -155,16 +153,16 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
         super.onDraw(canvas);
         postInvalidateOnAnimation(); // automatically invalidate every frame so we get continuous playback
 
-        if (snakeGame.isGameOver()) {
+        if (spaceGame.isGameOver()) {
             if (!isHighscoreSaved) {
                 isHighscoreSaved = true;
                 Context context = getContext();
                 String sharedPrefFile = context.getString(R.string.preference_file);
                 SharedPreferences preferences = context.getSharedPreferences(sharedPrefFile, Context.MODE_PRIVATE);
                 int previous_highscore = preferences.getInt(difficulty, 0);
-                if (snakeGame.getScore() > previous_highscore) {
+                if (spaceGame.getScore() > previous_highscore) {
                     SharedPreferences.Editor preferencesEditor = preferences.edit();
-                    preferencesEditor.putInt(difficulty, snakeGame.getScore());
+                    preferencesEditor.putInt(difficulty, spaceGame.getScore());
                     preferencesEditor.apply();
                 }
             }
@@ -175,19 +173,19 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
             return;
         }
 
-        snakeGame.update();
+        spaceGame.update();
 
         // Draw the snake
-        for (PointF pt : snakeGame.getSnakeBodyLocations()) { canvas.drawCircle(pt.x, pt.y, Snake.BODY_PIECE_SIZE_DP, snakePaint); }
+        for (PointF pt : spaceGame.getSnakeBodyLocations()) { canvas.drawCircle(pt.x, pt.y, PlayerShip.BODY_PIECE_SIZE_DP, playerPaint); }
 
         // Draw the walls
-        for (PointF pt : snakeGame.getWallLocations()) { canvas.drawCircle(pt.x, pt.y, Snake.BODY_PIECE_SIZE_DP, wallPaint); }
+        for (PointF pt : spaceGame.getWallLocations()) { canvas.drawCircle(pt.x, pt.y, PlayerShip.BODY_PIECE_SIZE_DP, wallPaint); }
 
         // Draw the food
-        canvas.drawCircle(snakeGame.getFoodLocation().x, snakeGame.getFoodLocation().y, Snake.BODY_PIECE_SIZE_DP, foodPaint);
+        canvas.drawCircle(spaceGame.getFoodLocation().x, spaceGame.getFoodLocation().y, PlayerShip.BODY_PIECE_SIZE_DP, enemyPaint);
 
         // Draw score
-        String text = Integer.toString(snakeGame.getScore());
+        String text = Integer.toString(spaceGame.getScore());
         scorePaint.getTextBounds(text, 0, text.length(), bounds);
         float x = (getWidth() - scorePaint.measureText(text) + bounds.width()) / 2f;
         canvas.drawText(text, x, 2*bounds.height(), scorePaint);
@@ -196,7 +194,7 @@ public class SpaceShootemGameView extends View implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
         float[] acceleration = event.values;
-        snakeGame.setMovementDirection(Math.atan2(acceleration[1], -acceleration[0]));
+        spaceGame.setMovementDirection(Math.atan2(acceleration[1], -acceleration[0]));
     }
 
     /** Does nothing but must be provided. */
