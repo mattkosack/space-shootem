@@ -43,6 +43,8 @@ public class Bullet {
         return position;
     }
 
+    public boolean checkOutOfBounds(int height) { return position.y > height; }
+
     public boolean checkShipIntersectsEnemy(List<PointF> locations, float radius) {
         return anyWithinRange(locations, getPosition(), size * SpaceGame.dpToPxFactor + radius);
     }
@@ -54,4 +56,6 @@ public class Bullet {
     private static boolean anyWithinRange(List<PointF> pts, PointF point, double range) {
         return pts.stream().anyMatch(pt -> withinRange(pt, point, range));
     }
+
+    
 }

@@ -2,8 +2,10 @@ package com.example.spaceshootem;
 
 
 import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,8 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
     private Button startView;
     private Button settingsView;
     private Button websiteView;
+    private SharedPreferences settings;
+    private boolean musicOn;
 
     public IntroFragment() {
         // Required empty public constructor
@@ -57,11 +61,11 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         titleView.startAnimation(animation);
 
         logoView = layout.findViewById(R.id.logo);
-        ObjectAnimator animator = ObjectAnimator.ofFloat(logoView, "translationX", -500f, 500f);
-        animation.setDuration(3000);
-        animation.setRepeatMode(ObjectAnimator.REVERSE);
-        animation.setRepeatCount(ObjectAnimator.INFINITE);
-        animation.start();
+        ObjectAnimator animator = ObjectAnimator.ofFloat(logoView, "translationY", -400f, 400f);
+        animator.setDuration(3000);
+        animator.setRepeatMode(ObjectAnimator.REVERSE);
+        animator.setRepeatCount(ObjectAnimator.INFINITE);
+        animator.start();
 
         startView = layout.findViewById(R.id.start_game);
         startView.setOnClickListener(this);

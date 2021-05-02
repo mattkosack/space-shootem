@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +25,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private Spinner difficulty;
     private Button confirm;
     private SharedPreferences settings;
-
-    private static MediaPlayer mediaPlayer;
     private boolean musicOn;
-
 
 
     public SettingsFragment() {
@@ -46,28 +44,20 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         layout = inflater.inflate(R.layout.fragment_settings, container, false);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-//        String musicKey = getString(R.string.music_key);
-//
-//        musicOn = musicSwitch.isChecked();
-//        mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.crazy);
-//        mediaPlayer.setLooping(true);
-//
-//
-//        // Set the switch's position and start music if necessary
-//        if (musicOn) {
-//            mediaPlayer.start();
-//            musicSwitch.setChecked(true);
-//        }
-//        musicSwitch = layout.findViewById(R.id.musicSwitch);
-//        musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            musicOn = musicSwitch.isChecked();
-//            if (musicOn) {
-//                mediaPlayer.start();
-//            } else {
-//                mediaPlayer.pause();
-//                mediaPlayer.seekTo(0);
-//            }
-//        });
+
+        musicOn = settings.getBoolean("musicKey", true);
+        musicSwitch = layout.findViewById(R.id.musicSwitch);
+        musicSwitch.setChecked(musicOn);
+
+        musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            musicOn = musicSwitch.isChecked();
+            if (musicOn) {
+                PlayMusic.playAudio(getContext());
+            } else {
+                PlayMusic.stopAudio();
+            }
+        });
+
 
         // Setup the spinner values
         playerColors = layout.findViewById(R.id.playerColorSpinner);

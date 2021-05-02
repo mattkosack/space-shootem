@@ -14,14 +14,11 @@ import static com.example.spaceshootem.Util.withinRange;
  */
 public class EnemyShip {
 
-    /** Distance that is moved each actual movement, in dp */
-    public final static float STEP_DISTANCE_DP = 2.5f;
-
     /** Starting position of the player ship */
     private final PointF position;
 
     /** Direction to move ship */
-    private double[] directions = { -1.0, 1.0 };
+    private double[] directions = { -2.0, -1.0, 1.0, 2.0 };
 
     /** Random generator used for direction */
     Random rnd = new Random();
@@ -61,7 +58,6 @@ public class EnemyShip {
         if (position.x + distance >= width || position.x <= 0) {
             position.x += 0;
         } else {
-
             position.x += distance * directions[rnd.nextInt(directions.length)];
         }
         position.y += distance / 4;

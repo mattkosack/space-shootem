@@ -2,6 +2,8 @@ package com.example.spaceshootem;
 
 
 import android.graphics.PointF;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -17,10 +19,10 @@ public class SpaceGame {
     public final static float BULLET_PIECE_SIZE_DP = 10f;
 
     /** Enemy Ship radius */
-    private static final float ENEMY_SIZE_DP = 15f;
+    private static final float ENEMY_SIZE_DP = 20f;
 
     /** Player Ship radius*/
-    public static final float PLAYER_SIZE_DP = 15f;
+    public static final float PLAYER_SIZE_DP = 20f;
 
     /** The width and height of the game, in px */
     private int width, height;
@@ -44,7 +46,7 @@ public class SpaceGame {
     private int score = 0;
 
     /** Round number (new round starts when all enemies are gone) */
-    private int round;
+    private int round = 0;
 
     /** Number of enemies to spawn initially */
     private int startingNumberOfEnemies;
@@ -100,7 +102,7 @@ public class SpaceGame {
     public void startGame(int width, int height) {
         this.width = width;
         this.height = height;
-        player = new PlayerShip(new PointF(width / 1.5f, height / 1.5f), PLAYER_SIZE_DP, width);
+        player = new PlayerShip(new PointF(width / 1.25f, height / 1.25f), PLAYER_SIZE_DP, width);
         score = 0;
         enemies.clear();
         spawnEnemies(startingNumberOfEnemies + 5 * round);
@@ -139,7 +141,7 @@ public class SpaceGame {
 
         // Move the bullets
         for (Bullet bullet : playerBulletLocations) {
-            bullet.setPosition(bullet.getPosition().x, bullet.getPosition().y - 1);
+            bullet.setPosition(bullet.getPosition().x, bullet.getPosition().y - 4);
         }
 
         // Set the bullet to true if it hit an enemy
@@ -167,7 +169,7 @@ public class SpaceGame {
         Iterator<Bullet> bulletIterator = playerBulletLocations.iterator();
         while (bulletIterator.hasNext()) {
             Bullet bullet = bulletIterator.next();
-            if (bullet.getDidHit()) {
+            if (bullet.getDidHit() || bullet.checkOutOfBounds(height)) {
                 bulletIterator.remove();
             }
         }
@@ -235,8 +237,9 @@ public class SpaceGame {
      */
     public void spawnEnemies(int numEnemies) {
         for (int i=0; i < numEnemies; i++) {
-            // TODO: Need some more random values for spawn locations
-            enemies.add(new EnemyShip(new PointF(width / 4f, height/ 4f), ENEMY_SIZE_DP, width, height));
+            float randX = 1F + random.nextFloat() * (width - 1F);
+            float randY = 1F + random.nextFloat() * (height/2F - 1F);
+            enemies.add(new EnemyShip(new PointF(randX, randY), ENEMY_SIZE_DP, width, height));
         }
     }
 }

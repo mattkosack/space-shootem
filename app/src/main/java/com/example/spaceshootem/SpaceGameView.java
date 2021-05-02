@@ -21,8 +21,6 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-
-
 public class SpaceGameView extends View implements SensorEventListener {
     /** The paints and drawables used for the different parts of the game */
     private final Paint scorePaint = new Paint();
@@ -43,7 +41,7 @@ public class SpaceGameView extends View implements SensorEventListener {
     private final SpaceGame spaceGame;
 
     /** The difficulty settings. Each index corresponds to difficulty (i.e. index 0 is easy) */
-    private final int[] STARTING_ENEMIES = { 5, 10, 15, 20, 20 };
+    private final int[] STARTING_ENEMIES = { 10, 20, 30, 40, 50 };
 
     // Required constructors for making your own view that can be placed in a layout
     public SpaceGameView(Context context) { this(context, null);  }
