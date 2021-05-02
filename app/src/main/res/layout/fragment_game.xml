@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <view
-        android:id="@+id/SpaceShootemGameView"
+    <com.example.spaceshootem.SpaceGameView
+        android:id="@+id/SpaceGameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

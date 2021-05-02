@@ -2,9 +2,8 @@ package com.example.spaceshootem;
 
 
 import android.graphics.PointF;
-
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -14,8 +13,14 @@ public class SpaceGame {
     /** The one and only random number generator for any game */
     private final static Random random = new Random();
 
-    /** Touch "radius" in dp */
-    public final static float TOUCH_SIZE_DP = 5;
+    /** Radius of each body piece in dp */
+    public final static float BULLET_PIECE_SIZE_DP = 10f;
+
+    /** Enemy Ship radius */
+    private static final float ENEMY_SIZE_DP = 15f;
+
+    /** Player Ship radius*/
+    public static final float PLAYER_SIZE_DP = 15f;
 
     /** The width and height of the game, in px */
     private int width, height;
@@ -26,23 +31,32 @@ public class SpaceGame {
     /** The player moving around the game */
     private PlayerShip player;
 
+    /** Locations of enemy bullets, in px */
+    private List<Bullet> playerBulletLocations = new ArrayList<>();
+
     /** The direction the player is moving  */
-    private double direction; //TODO: should only be left or right, so may not need to be a double
+    private boolean isDirectionLeft;
 
-    /** Initial speed of the snake, in dp/frame */
-    private double initialSpeed = 2.5;
-
-    /** Speed of the snake, in dp/frame */
-    private double speed = 2.5;
+    /** Speed of the player ship, in dp/frame */
+    private double playerSpeed = 1.0;
 
     /** Number of enemies killed (i.e. the score) */
     private int score = 0;
 
+    /** Round number (new round starts when all enemies are gone) */
+    private int round;
+
+    /** Number of enemies to spawn initially */
+    private int startingNumberOfEnemies;
+
     /** Locations of all of the enemy ships, each in px */
-    private final List<PointF> enemies = new ArrayList<>();
+    private final List<EnemyShip> enemies = new ArrayList<>();
+
+    /** Speed of the enemy ship, in dp/frame */
+    private double enemySpeed = 1.5;
 
     /** Converts dp to px */
-    private float dpToPxFactor = 1f;
+    public static float dpToPxFactor = 1f;
 
     /**
      * @return true if the game has not yet been started ever
@@ -55,12 +69,27 @@ public class SpaceGame {
     public int getScore() { return score; }
 
     /**
+     * @return bullet size in dp
+     */
+    public float getBulletSizeDp() { return BULLET_PIECE_SIZE_DP; }
+
+    /**
+     * @return enemy ship size in dp
+     */
+    public float getEnemySizeDp() { return ENEMY_SIZE_DP; }
+
+    /**
+     * @return player ship size in dp
+     */
+    public float getPlayerSizeDp() { return PLAYER_SIZE_DP; }
+
+    /**
      * Set the factor for converting dp measurements to px. This is the size of
      * 1 dp in pixels.
      * @param dpToPxFactor the conversion factor to go from dp to px
      */
     public void setDpToPxFactor(float dpToPxFactor) {
-        this.dpToPxFactor = dpToPxFactor;
+        SpaceGame.dpToPxFactor = dpToPxFactor;
     }
 
     /**
@@ -71,9 +100,10 @@ public class SpaceGame {
     public void startGame(int width, int height) {
         this.width = width;
         this.height = height;
-//        player = new PlayerShip(); // TODO:
+        player = new PlayerShip(new PointF(width / 1.5f, height / 1.5f), PLAYER_SIZE_DP, width);
         score = 0;
         enemies.clear();
+        spawnEnemies(startingNumberOfEnemies + 5 * round);
         gameOver = false;
     }
 
@@ -86,57 +116,101 @@ public class SpaceGame {
 
     /**
      * Sets the direction that the snake will move in the future.
-     * @param angle the new direction of the snake, in radians, 0 is straight
-     *              right along the positive X axis, pi/2 is straight down along
-     *              the positive Y axis
+     * @param isLeft if the direction to move is left
      */
-    public void setMovementDirection(double angle) { direction = angle; } //TODO: only needs to be left or right
-
+    public void setMovementDirection(boolean isLeft) {
+        isDirectionLeft = isLeft;
+    }
 
     public boolean update() {
-        if (gameOver) { return false; }
+        if (gameOver || player.checkShipIntersectsEnemy(getEnemyLocations(), ENEMY_SIZE_DP)) { return false; }
 
         // Move player ship
-        player.move(direction, speed * dpToPxFactor);
+        player.move(isDirectionLeft, playerSpeed * dpToPxFactor);
 
-        // Check if player was hit by enemy bullet
-//         TODO:
-//        if () {
-//            gameOver = true;
-//            return false;
-//        }
+        // Move enemy ships
+        for (EnemyShip enemy : enemies) {
+            enemy.move(enemySpeed * dpToPxFactor);
+        }
 
-        // Check if player shot an enemy ship
-//         TODO:
-//        if () {
-//            score++;
-//        }
+        // Move the bullets
+        for (Bullet bullet : playerBulletLocations) {
+            bullet.setPosition(bullet.getPosition().x, bullet.getPosition().y - 1);
+        }
 
-        // if all the enemies are gone, spawn in new ones?
-        // Not sure how we want to handle levels or something
-//        TODO
+        // Set the bullet to true if it hit an enemy
+        for (Bullet bullet : playerBulletLocations) {
+            if (bullet.checkShipIntersectsEnemy(getEnemyLocations(), ENEMY_SIZE_DP * dpToPxFactor)) {
+                bullet.setDidHit();
+            }
+        }
 
+        // Remove hit enemies
+        Iterator<EnemyShip> enemyShipIterator = enemies.iterator();
+        while (enemyShipIterator.hasNext()) {
+            EnemyShip enemy = enemyShipIterator.next();
+            if (enemy.enemyIntersectsPlayerBullet(getPlayerBulletLocations(), BULLET_PIECE_SIZE_DP * dpToPxFactor)) {
+                enemyShipIterator.remove();
+                score++;
+            }
+            if (enemy.enemyOutOfBoundsY()) {
+                enemyShipIterator.remove();
+                score--;
+            }
+        }
+
+        // Remove the bullets
+        Iterator<Bullet> bulletIterator = playerBulletLocations.iterator();
+        while (bulletIterator.hasNext()) {
+            Bullet bullet = bulletIterator.next();
+            if (bullet.getDidHit()) {
+                bulletIterator.remove();
+            }
+        }
+
+        // if all the enemies are gone, spawn in new ones
+        if (enemies.size() == 0) {
+            round++;
+            spawnEnemies(startingNumberOfEnemies + 5 * round);
+        }
         return true;
     }
 
     /**
-     * If the screen is touched, the playership will fire
+     * If the screen is touched, the player ship will fire
      * @return true if the game is still going, false if the game is now over
      */
     public boolean touched() {
         if (gameOver) { return false; }
-
-//        TODO
-        // Shoot bullet from player
-
+        playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f, getPlayerLocation().y + 0.1f), BULLET_PIECE_SIZE_DP));
         return true;
     }
-
 
     public PointF getPlayerLocation() {
         return player.getPosition();
     }
 
-    public PointF[] getEnemyLocations() {
+    public List<PointF> getEnemyLocations() {
+        List<PointF> enemyLocations = new ArrayList<>();
+        for (EnemyShip enemy : enemies) {
+            enemyLocations.add(new PointF(enemy.getPosition().x, enemy.getPosition().y));
+        }
+        return enemyLocations;
+    }
+
+    public List<PointF> getPlayerBulletLocations() {
+        List<PointF> bulletLocations = new ArrayList<>();
+        for (Bullet bullet : playerBulletLocations) {
+            bulletLocations.add(new PointF(bullet.getPosition().x, bullet.getPosition().y));
+        }
+        return bulletLocations; }
+
+    public void setStartingNumberOfEnemies(int numEnemies) { startingNumberOfEnemies = numEnemies; }
+
+    public void spawnEnemies(int numEnemies) {
+        for (int i=0; i < numEnemies; i++) {
+            // TODO: Need some more random values for spawn locations
+            enemies.add(new EnemyShip(new PointF(width / 4f, height/ 4f), ENEMY_SIZE_DP, width, height));
+        }
     }
 }

@@ -1,9 +1,44 @@
 <resources>
     <string name="app_name">Space Shoot em</string>
     <string name="title">Space Shootem</string>
+    <string name="logo">rocket logo</string>
     <string name="start_game">START GAME</string>
     <string name="settings">SETTINGS</string>
     <string name="highscores">HIGHSCORES</string>
-    <string name="website">WEBSITE</string>
+    <string name="website">GITHUB</string>
+    <string name="game_over">GAME OVER</string>
     <string name="web_url">https://github.com/mattkosack/space-shootem</string>
+    <string name="preference_file">com.example.spaceshootem</string>
+    <string name="music">Music</string>
+    <string name="player_color">Player Color</string>
+    <string name="enemy_color">Enemy Color</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="name">Name</string>
+    <string name="okay">Okay</string>
+    <string name="bullet_color">Bullet Color</string>
+    <string-array name="difficulties">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+        <item>Harder</item>
+        <item>Extreme</item>
+    </string-array>
+    <string-array name="enemy_colors_list">
+        <item>RED</item>
+        <item>BLUE</item>
+        <item>GREEN</item>
+        <item>YELLOW</item>
+    </string-array>
+    <string-array name="player_colors_list">
+        <item>GREEN</item>
+        <item>BLUE</item>
+        <item>YELLOW</item>
+        <item>RED</item>
+    </string-array>
+    <string-array name="bullet_colors_list">
+        <item>YELLOW</item>
+        <item>BLUE</item>
+        <item>GREEN</item>
+        <item>RED</item>
+    </string-array>
 </resources>

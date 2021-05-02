@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
@@ -37,7 +39,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
 
     /**
      * Create the view of the fragment and fill in its contents.
-     *
      * @return the root View of the fragment
      */
     @Override
@@ -48,14 +49,18 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
 
         // Set the contents of the fragment
         titleView = layout.findViewById(R.id.title);
+        // Set the title to flicker
+        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+        animation.setDuration(1000);
+        animation.setStartOffset(20);
+        animation.setRepeatMode(Animation.REVERSE);
+        animation.setRepeatCount(Animation.INFINITE);
+        titleView.startAnimation(animation);
 
         logoView = layout.findViewById(R.id.logo);
 
         startView = layout.findViewById(R.id.start_game);
         startView.setOnClickListener(this);
-
-        highscoreView = layout.findViewById(R.id.highscore);
-        highscoreView.setOnClickListener(this);
 
         settingsView = layout.findViewById(R.id.settings);
         settingsView.setOnClickListener(this);
@@ -77,8 +82,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         Fragment frag = null;
         if (v == layout.findViewById(R.id.start_game)) {
             frag = GameFragment.newInstance();
-        } else if (v == layout.findViewById(R.id.highscore)) {
-            //TODO: new fragment? show the high scores...
         } else if (v == layout.findViewById(R.id.settings)){
             frag = SettingsFragment.newInstance();
         } else if (v == layout.findViewById(R.id.website)) {
@@ -86,7 +89,8 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         }
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, frag)
+                .add(R.id.fragment_container, frag)
+                .addToBackStack(null)
                 .commit();
     }
 }

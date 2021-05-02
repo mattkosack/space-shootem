@@ -12,6 +12,9 @@ import android.webkit.WebViewClient;
 import androidx.fragment.app.Fragment;
 
 public class WebsiteFragment extends Fragment {
+
+    public WebView webView;
+
     public WebsiteFragment() {
         // Required empty public constructor
     }
@@ -28,17 +31,14 @@ public class WebsiteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_website, container, false);
 
-        // TODO: Doesn't load the webpage...
-        WebView webView = rootView.findViewById(R.id.webView);
+        webView = rootView.findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
-        webView.loadUrl("https://www.google.com/");
+        webView.loadUrl((String) getText(R.string.web_url));
 
         webView.setWebViewClient(new WebViewClient());
 
         return rootView;
     }
-
-
 }
 
