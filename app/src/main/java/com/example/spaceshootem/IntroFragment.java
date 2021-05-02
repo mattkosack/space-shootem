@@ -1,14 +1,14 @@
 package com.example.spaceshootem;
 
 
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -22,7 +22,6 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
     private TextView titleView;
     private ImageView logoView;
     private Button startView;
-    private Button highscoreView;
     private Button settingsView;
     private Button websiteView;
 
@@ -58,6 +57,11 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         titleView.startAnimation(animation);
 
         logoView = layout.findViewById(R.id.logo);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(logoView, "translationX", -500f, 500f);
+        animation.setDuration(3000);
+        animation.setRepeatMode(ObjectAnimator.REVERSE);
+        animation.setRepeatCount(ObjectAnimator.INFINITE);
+        animation.start();
 
         startView = layout.findViewById(R.id.start_game);
         startView.setOnClickListener(this);

@@ -16,6 +16,8 @@
     <string name="name">Name</string>
     <string name="okay">Okay</string>
     <string name="bullet_color">Bullet Color</string>
+    <string name="music_key">musicOn</string>
+
     <string-array name="difficulties">
         <item>Easy</item>
         <item>Medium</item>

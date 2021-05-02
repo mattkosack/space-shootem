@@ -122,6 +122,10 @@ public class SpaceGame {
         isDirectionLeft = isLeft;
     }
 
+    /**
+     * Update the piece statuses
+     * @return true if the game isn't over
+     */
     public boolean update() {
         if (gameOver || player.checkShipIntersectsEnemy(getEnemyLocations(), ENEMY_SIZE_DP)) { return false; }
 
@@ -186,10 +190,18 @@ public class SpaceGame {
         return true;
     }
 
+    /**
+     * get the player point
+     * @return PointF of the player location
+     */
     public PointF getPlayerLocation() {
         return player.getPosition();
     }
 
+    /**
+     * Get all enemy locations as an array of points
+     * @return array of pointf
+     */
     public List<PointF> getEnemyLocations() {
         List<PointF> enemyLocations = new ArrayList<>();
         for (EnemyShip enemy : enemies) {
@@ -198,15 +210,29 @@ public class SpaceGame {
         return enemyLocations;
     }
 
+    /**
+     * Get all player bullet locations as an array of points
+     * @return array of pointf
+     */
     public List<PointF> getPlayerBulletLocations() {
         List<PointF> bulletLocations = new ArrayList<>();
         for (Bullet bullet : playerBulletLocations) {
             bulletLocations.add(new PointF(bullet.getPosition().x, bullet.getPosition().y));
         }
-        return bulletLocations; }
+        return bulletLocations;
+    }
 
+    /**
+     * Sets the number of enemies to initially spawn
+     * @param numEnemies the number of enemies to spawn
+     */
     public void setStartingNumberOfEnemies(int numEnemies) { startingNumberOfEnemies = numEnemies; }
 
+
+    /**
+     * Adds the enemies to the list
+     * @param numEnemies the number of enemies to add
+     */
     public void spawnEnemies(int numEnemies) {
         for (int i=0; i < numEnemies; i++) {
             // TODO: Need some more random values for spawn locations

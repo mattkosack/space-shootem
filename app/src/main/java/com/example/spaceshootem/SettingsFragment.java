@@ -1,6 +1,8 @@
 package com.example.spaceshootem;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -23,6 +25,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private Button confirm;
     private SharedPreferences settings;
 
+    private static MediaPlayer mediaPlayer;
+    private boolean musicOn;
+
+
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -40,8 +46,28 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         layout = inflater.inflate(R.layout.fragment_settings, container, false);
 
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
-
-        musicSwitch = layout.findViewById(R.id.musicSwitch);
+//        String musicKey = getString(R.string.music_key);
+//
+//        musicOn = musicSwitch.isChecked();
+//        mediaPlayer = MediaPlayer.create(getContext().getApplicationContext(), R.raw.crazy);
+//        mediaPlayer.setLooping(true);
+//
+//
+//        // Set the switch's position and start music if necessary
+//        if (musicOn) {
+//            mediaPlayer.start();
+//            musicSwitch.setChecked(true);
+//        }
+//        musicSwitch = layout.findViewById(R.id.musicSwitch);
+//        musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            musicOn = musicSwitch.isChecked();
+//            if (musicOn) {
+//                mediaPlayer.start();
+//            } else {
+//                mediaPlayer.pause();
+//                mediaPlayer.seekTo(0);
+//            }
+//        });
 
         // Setup the spinner values
         playerColors = layout.findViewById(R.id.playerColorSpinner);
@@ -74,6 +100,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         return layout;
     }
 
+    /**
+     * Saves the changes made when the okay button is clicked
+     * @param v the view clicked
+     */
     @Override
     public void onClick(View v) {
         SharedPreferences.Editor editor = settings.edit();
@@ -81,6 +111,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putString("playerColor", (String) playerColors.getSelectedItem());
         editor.putString("enemyColor", (String) enemyColors.getSelectedItem());
         editor.putString("bulletColor", (String) bulletColors.getSelectedItem());
+        editor.putBoolean("musicKey", musicOn);
         editor.apply();
 
         getFragmentManager()

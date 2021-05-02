@@ -1,7 +1,6 @@
 package com.example.spaceshootem;
 
 import android.graphics.PointF;
-import android.util.Log;
 
 import java.util.List;
 

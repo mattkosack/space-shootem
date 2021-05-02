@@ -29,8 +29,6 @@ public class EnemyShip {
     /** The distance to be travelled. */
     private double distXToTravel = 0.0;
 
-
-
     /** Dimensions of layout, used to check bounds */
     private final int width, height;
 
@@ -49,8 +47,7 @@ public class EnemyShip {
     }
 
     /**
-     *
-     * @return
+     * @return position of this ship
      */
     public PointF getPosition() {
         return position;
@@ -70,6 +67,10 @@ public class EnemyShip {
         position.y += distance / 4;
     }
 
+    /**
+     * Checks if this ship is out of bounds
+     * @return true if the ship is out of bounds
+     */
     public boolean enemyOutOfBoundsY() { return (getPosition().y > height); }
 
     /**
