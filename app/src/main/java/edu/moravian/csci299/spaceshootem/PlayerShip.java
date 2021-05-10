@@ -1,10 +1,8 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.graphics.PointF;
 
 import java.util.List;
-
-import static com.example.spaceshootem.Util.*;
 
 public class PlayerShip {
 
@@ -15,7 +13,7 @@ public class PlayerShip {
     private final int width;
 
     /** Radius of each body piece in dp */
-    private float shipSize;
+    private final float shipSize;
 
     /**
      * Create the ship with the given initial position.
@@ -55,6 +53,6 @@ public class PlayerShip {
      * @return true if withinRange(a, b, range) is true for any of the points in the list
      */
     private static boolean anyWithinRange(List<PointF> pts, PointF point, double range) {
-        return pts.stream().anyMatch(pt -> withinRange(pt, point, range));
+        return pts.stream().anyMatch(pt -> Util.withinRange(pt, point, range));
     }
 }

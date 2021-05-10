@@ -1,11 +1,9 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 
 import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,7 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
     private Button settingsView;
     private Button websiteView;
     private SharedPreferences settings;
-    private boolean musicOn;
+
 
     public IntroFragment() {
         // Required empty public constructor
@@ -50,6 +48,7 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_intro, container, false);
 
+        
         // Set the contents of the fragment
         titleView = layout.findViewById(R.id.title);
         // Set the title to flicker

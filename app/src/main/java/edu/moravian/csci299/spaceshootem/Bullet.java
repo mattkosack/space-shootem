@@ -1,17 +1,17 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.graphics.PointF;
 
 import java.util.List;
 
-import static com.example.spaceshootem.Util.withinRange;
+import static edu.moravian.csci299.spaceshootem.Util.withinRange;
 
 /**
  * All bullets will be the same size for now.
  * Eventually there may be different types of bullets.
  */
 public class Bullet {
-    private PointF position;
+    private final PointF position;
     private boolean didHit;
     private float size;
 
@@ -56,6 +56,4 @@ public class Bullet {
     private static boolean anyWithinRange(List<PointF> pts, PointF point, double range) {
         return pts.stream().anyMatch(pt -> withinRange(pt, point, range));
     }
-
-    
 }

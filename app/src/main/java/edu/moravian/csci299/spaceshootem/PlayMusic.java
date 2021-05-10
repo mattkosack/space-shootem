@@ -1,4 +1,4 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.content.Context;
 import android.media.MediaPlayer;

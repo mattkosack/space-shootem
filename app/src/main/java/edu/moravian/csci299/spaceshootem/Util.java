@@ -1,4 +1,4 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.graphics.PointF;
 

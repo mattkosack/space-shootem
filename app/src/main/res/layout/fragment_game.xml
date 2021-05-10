@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.spaceshootem.SpaceGameView
+    <edu.moravian.csci299.spaceshootem.SpaceGameView
         android:id="@+id/SpaceGameView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

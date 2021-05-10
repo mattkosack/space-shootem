@@ -1,4 +1,4 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -6,8 +6,6 @@ import androidx.fragment.app.Fragment;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +18,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        // Set default preferences
+        editor.putString("difficulty", "Easy");
+        editor.putString("enemyColor", "RED");
+        editor.putString("playerColor", "GREEN");
+        editor.putString("bulletColor", "YELLOW");
+        editor.apply();
+
         musicOn = settings.getBoolean("musicKey", musicOn);
+
 
         if (musicOn) {
             PlayMusic.playAudio(getApplicationContext());

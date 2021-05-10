@@ -1,15 +1,12 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 
 import android.graphics.PointF;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import static com.example.spaceshootem.Util.withinRange;
 
 public class SpaceGame {
     /** The one and only random number generator for any game */
@@ -34,13 +31,13 @@ public class SpaceGame {
     private PlayerShip player;
 
     /** Locations of enemy bullets, in px */
-    private List<Bullet> playerBulletLocations = new ArrayList<>();
+    private final List<Bullet> playerBulletLocations = new ArrayList<>();
 
     /** The direction the player is moving  */
     private boolean isDirectionLeft;
 
     /** Speed of the player ship, in dp/frame */
-    private double playerSpeed = 1.0;
+    private final double playerSpeed = 1.0;
 
     /** Number of enemies killed (i.e. the score) */
     private int score = 0;
@@ -55,7 +52,7 @@ public class SpaceGame {
     private final List<EnemyShip> enemies = new ArrayList<>();
 
     /** Speed of the enemy ship, in dp/frame */
-    private double enemySpeed = 1.5;
+    private final double enemySpeed = 1.5;
 
     /** Converts dp to px */
     public static float dpToPxFactor = 1f;
@@ -188,7 +185,8 @@ public class SpaceGame {
      */
     public boolean touched() {
         if (gameOver) { return false; }
-        playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f, getPlayerLocation().y + 0.1f), BULLET_PIECE_SIZE_DP));
+        playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f,
+                getPlayerLocation().y + 0.1f), BULLET_PIECE_SIZE_DP));
         return true;
     }
 

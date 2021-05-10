@@ -1,4 +1,4 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import androidx.fragment.app.Fragment;
 

@@ -1,22 +1,16 @@
 <resources>
-    <string name="app_name">Space Shoot em</string>
-    <string name="title">Space Shootem</string>
+    <string name="title" translatable="false">Space Shoot em</string>
     <string name="logo">rocket logo</string>
     <string name="start_game">START GAME</string>
     <string name="settings">SETTINGS</string>
-    <string name="highscores">HIGHSCORES</string>
-    <string name="website">GITHUB</string>
-    <string name="game_over">GAME OVER</string>
-    <string name="web_url">https://github.com/mattkosack/space-shootem</string>
-    <string name="preference_file">com.example.spaceshootem</string>
+    <string name="website" translatable="false">GITHUB</string>
+    <string name="web_url" translatable="false">https://github.com/mattkosack/space-shootem</string>
     <string name="music">Music</string>
     <string name="player_color">Player Color</string>
     <string name="enemy_color">Enemy Color</string>
     <string name="difficulty">Difficulty</string>
-    <string name="name">Name</string>
     <string name="okay">Okay</string>
     <string name="bullet_color">Bullet Color</string>
-    <string name="music_key">musicOn</string>
 
     <string-array name="difficulties">
         <item>Easy</item>
@@ -43,4 +37,5 @@
         <item>GREEN</item>
         <item>RED</item>
     </string-array>
+    <string name="app_name">Space Shoot em</string>
 </resources>

@@ -1,11 +1,8 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

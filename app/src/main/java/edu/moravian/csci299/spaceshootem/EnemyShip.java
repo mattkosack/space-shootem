@@ -1,11 +1,11 @@
-package com.example.spaceshootem;
+package edu.moravian.csci299.spaceshootem;
 
 import android.graphics.PointF;
 
 import java.util.List;
 import java.util.Random;
 
-import static com.example.spaceshootem.Util.withinRange;
+import static edu.moravian.csci299.spaceshootem.Util.withinRange;
 
 /**
  * It's the same as a PlayerShip, but eventually there will be differences between how enemies move
@@ -18,19 +18,19 @@ public class EnemyShip {
     private final PointF position;
 
     /** Direction to move ship */
-    private double[] directions = { -2.0, -1.0, 1.0, 2.0 };
+    private final double[] directions = { -2.0, -1.0, 1.0, 2.0 };
 
     /** Random generator used for direction */
     Random rnd = new Random();
 
     /** The distance to be travelled. */
-    private double distXToTravel = 0.0;
+    private final double distXToTravel = 0.0;
 
     /** Dimensions of layout, used to check bounds */
     private final int width, height;
 
     /** Radius of each body piece in dp */
-    private float shipSize;
+    private final float shipSize;
 
     /**
      * Create the ship with the given initial position.
