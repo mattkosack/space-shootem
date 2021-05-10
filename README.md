@@ -5,5 +5,17 @@ This game is essentially a knockoff of old arcade games like Galaga and Space In
 
 # Future Ideas
 change speeds
+
 different weapons
-enemies can shoot back
+
+enemies shoot back
+
+joystick options instea of tilt controls
+
+# Miscellaneous Things to Change
+Various bugs in UI
+
+Slowdowns when enemies spawn
+
+Can shoot way too much from tapping
+
