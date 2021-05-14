@@ -152,16 +152,16 @@ public class SpaceGameView extends View implements SensorEventListener {
 
         // Draw the Player
         PointF player = spaceGame.getPlayerLocation();
-        canvas.drawCircle(player.x, player.y, spaceGame.getPlayerSizeDp(), playerPaint);
+        canvas.drawCircle(player.x, player.y, dpToPx(spaceGame.getPlayerSizeDp()), playerPaint);
 
         // Draw the enemies
         for (PointF enemyShip : spaceGame.getEnemyLocations()) {
-            canvas.drawCircle(enemyShip.x, enemyShip.y, spaceGame.getEnemySizeDp(), enemyPaint);
+            canvas.drawCircle(enemyShip.x, enemyShip.y, dpToPx(spaceGame.getEnemySizeDp()), enemyPaint);
         }
 
         // Draw the player bullets
         for (PointF bullet : spaceGame.getPlayerBulletLocations()) {
-            canvas.drawCircle(bullet.x, bullet.y, SpaceGame.BULLET_PIECE_SIZE_DP, playerBulletPaint);
+            canvas.drawCircle(bullet.x, bullet.y, dpToPx(SpaceGame.BULLET_PIECE_SIZE_DP), playerBulletPaint);
         }
 
         // Draw score

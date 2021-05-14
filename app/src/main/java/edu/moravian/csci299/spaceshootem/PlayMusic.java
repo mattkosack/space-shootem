@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 
 // This is courtesy of Mark Morykan and Jonah Beers
 // We all agree it's not great, but it works...
+// Eventually this should become a service.
 public class PlayMusic {
 
     public static MediaPlayer mediaPlayer;

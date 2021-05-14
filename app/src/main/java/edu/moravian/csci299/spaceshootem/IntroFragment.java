@@ -94,6 +94,8 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
         } else if (v == layout.findViewById(R.id.website)) {
             frag = WebsiteFragment.newInstance();
         }
+        assert frag != null;
+        assert getFragmentManager() != null;
         getFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, frag)

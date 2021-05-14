@@ -152,11 +152,11 @@ public class SpaceGame {
         Iterator<EnemyShip> enemyShipIterator = enemies.iterator();
         while (enemyShipIterator.hasNext()) {
             EnemyShip enemy = enemyShipIterator.next();
-            if (enemy.enemyIntersectsPlayerBullet(getPlayerBulletLocations(), BULLET_PIECE_SIZE_DP * dpToPxFactor)) {
+            if (enemy.checkShipIntersectsEnemy(getPlayerBulletLocations(), BULLET_PIECE_SIZE_DP * dpToPxFactor)) {
                 enemyShipIterator.remove();
                 score++;
             }
-            if (enemy.enemyOutOfBoundsY()) {
+            if (enemy.outOfBoundsY()) {
                 enemyShipIterator.remove();
                 score--;
             }
