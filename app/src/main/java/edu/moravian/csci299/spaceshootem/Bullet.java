@@ -15,7 +15,6 @@ public class Bullet {
     private boolean didHit;
     private float size;
 
-
     public Bullet(PointF position, float size) {
         this.position = position;
         this.didHit = false;

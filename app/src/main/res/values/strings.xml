@@ -11,6 +11,9 @@
     <string name="difficulty">Difficulty</string>
     <string name="okay">Okay</string>
     <string name="bullet_color">Bullet Color</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="try_again">Try Again</string>
+    <string name="game_over">The Aliens Have Defeated You</string>
 
     <string-array name="difficulties">
         <item>Easy</item>
@@ -38,4 +41,5 @@
         <item>RED</item>
     </string-array>
     <string name="app_name">Space Shoot em</string>
+    <string name="game_over_image">game_over_image</string>
 </resources>

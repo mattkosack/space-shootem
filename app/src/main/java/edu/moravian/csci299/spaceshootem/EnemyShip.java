@@ -7,15 +7,14 @@ import java.util.Random;
 
 import static edu.moravian.csci299.spaceshootem.Util.withinRange;
 
-/**
- * It's the same as a PlayerShip, but eventually there will be differences between how enemies move
- * or they can shoot or other abilities, so this is separated for future use, even though it
- * is not different yet.
- */
+
 public class EnemyShip extends Ship {
 
     /** Direction to move ship */
-    private final double[] directions = { -2.0, -1.0, 1.0, 2.0 };
+    private final double[] directions = { -1.0, 1.0 };
+
+    /** Some extra distance to move the ship */
+    private final double[] distanceLeftOrRight = { -10.0, -5.0, -2.5, -1.0, 0.0, 1.0, 2.5, 5.0, 10.0 };
 
     /** Random generator used for direction */
     Random rnd = new Random();
@@ -35,14 +34,20 @@ public class EnemyShip extends Ship {
         this.height = height;
     }
 
-
-    public void move(double distance) {
-        if (super.getPosition().x + distance >= super.getWidth() || super.getPosition().x <= 0) {
-            super.setPositionX(getPosition().x);
+    /**
+     * Set the positions away from the borders if they would be at (or beyond) them.
+     * @param distanceForward the speed times dp distance to move the piece forward.
+     */
+    public void move(double distanceForward) {
+        double distance = distanceLeftOrRight[rnd.nextInt(distanceLeftOrRight.length)];
+        if (super.getPosition().x + distance >= super.getWidth()) {
+            super.setPositionX(getPosition().x - 1.0f);
+        } else if (super.getPosition().x <= 0) {
+            super.setPositionX(getPosition().x + 1.0f);
         } else {
             super.setPositionX(getPosition().x += distance * directions[rnd.nextInt(directions.length)]);
         }
-        setPositionY(getPosition().y += distance/4);
+        setPositionY(getPosition().y += distanceForward/4);
     }
 
     /**
@@ -50,6 +55,4 @@ public class EnemyShip extends Ship {
      * @return true if the ship is out of bounds
      */
     public boolean outOfBoundsY() { return (getPosition().y > height); }
-
-
 }

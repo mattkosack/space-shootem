@@ -19,3 +19,8 @@ Slowdowns when enemies spawn
 
 Can shoot way too much from tapping
 
+Not sure why the bulletsizedp is static, that should be changed to be more consistent with getters
+
+
+# TODOs
+Documentation

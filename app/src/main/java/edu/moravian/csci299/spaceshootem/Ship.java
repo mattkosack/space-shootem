@@ -4,7 +4,6 @@ import android.graphics.PointF;
 
 import java.util.List;
 
-
 public class Ship {
     /** Starting position of the player ship */
     private final PointF position;

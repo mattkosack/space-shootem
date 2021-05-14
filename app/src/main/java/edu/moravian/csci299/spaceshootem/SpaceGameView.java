@@ -12,10 +12,12 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SpaceGameView extends View implements SensorEventListener {
     /** The paints and drawables used for the different parts of the game */
@@ -121,21 +123,16 @@ public class SpaceGameView extends View implements SensorEventListener {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (spaceGame.hasNotStarted()) {
+//        if (spaceGame.hasNotStarted()) {
             spaceGame.startGame(right - left, bottom - top);
             spaceGame.setDpToPxFactor(displayMetrics.density);
-        }
+//        }
         invalidate();
     }
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        if (spaceGame.isGameOver()) {
-            if (getContext() instanceof Activity) {
-                ((Activity) getContext()).finish();
-            }
-        }
-        spaceGame.touched();
-        invalidate();
+//        spaceGame.touched();
+//        invalidate();
         return spaceGame.touched();
     }
 
@@ -149,6 +146,17 @@ public class SpaceGameView extends View implements SensorEventListener {
         postInvalidateOnAnimation(); // automatically invalidate every frame so we get continuous playback
 
         spaceGame.update();
+        // This might have to be somewhere else
+        if (spaceGame.isGameOver()) {
+            if (getContext() instanceof Activity) {
+                ((AppCompatActivity) getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, GameOverFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
 
         // Draw the Player
         PointF player = spaceGame.getPlayerLocation();

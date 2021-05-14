@@ -38,14 +38,15 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        layout = inflater.inflate(R.layout.fragment_settings, container, false);
+//        assert container != null;
+//        container.removeAllViews();
 
+        layout = inflater.inflate(R.layout.fragment_settings, container, false);
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         musicOn = settings.getBoolean("musicKey", true);
         musicSwitch = layout.findViewById(R.id.musicSwitch);
         musicSwitch.setChecked(musicOn);
-
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             musicOn = musicSwitch.isChecked();
             if (musicOn) {
@@ -101,6 +102,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         editor.putBoolean("musicKey", musicOn);
         editor.apply();
 
+        assert getFragmentManager() != null;
         getFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, IntroFragment.newInstance())

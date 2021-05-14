@@ -43,8 +43,9 @@ public class IntroFragment extends Fragment implements View.OnClickListener {
      * @return the root View of the fragment
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        assert container != null;
+//        container.removeAllViews();
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_intro, container, false);
 

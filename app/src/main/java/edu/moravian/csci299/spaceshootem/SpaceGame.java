@@ -2,6 +2,7 @@ package edu.moravian.csci299.spaceshootem;
 
 
 import android.graphics.PointF;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,13 +14,13 @@ public class SpaceGame {
     private final static Random random = new Random();
 
     /** Radius of each body piece in dp */
-    public final static float BULLET_PIECE_SIZE_DP = 10f;
+    public final static float BULLET_PIECE_SIZE_DP = 5f;
 
     /** Enemy Ship radius */
-    private static final float ENEMY_SIZE_DP = 20f;
+    private static final float ENEMY_SIZE_DP = 10f;
 
     /** Player Ship radius*/
-    public static final float PLAYER_SIZE_DP = 20f;
+    public static final float PLAYER_SIZE_DP = 10f;
 
     /** The width and height of the game, in px */
     private int width, height;
@@ -103,6 +104,7 @@ public class SpaceGame {
         score = 0;
         enemies.clear();
         spawnEnemies(startingNumberOfEnemies + 5 * round);
+        Log.e("ah", "It should set the game to false");
         gameOver = false;
     }
 
@@ -126,7 +128,10 @@ public class SpaceGame {
      * @return true if the game isn't over
      */
     public boolean update() {
-        if (gameOver || player.checkShipIntersectsEnemy(getEnemyLocations(), ENEMY_SIZE_DP)) { return false; }
+        if (player.checkShipIntersectsEnemy(getEnemyLocations(), ENEMY_SIZE_DP)) {
+            gameOver = true;
+            return isGameOver();
+        }
 
         // Move player ship
         player.move(isDirectionLeft, playerSpeed * dpToPxFactor);
@@ -176,7 +181,7 @@ public class SpaceGame {
             round++;
             spawnEnemies(startingNumberOfEnemies + 5 * round);
         }
-        return true;
+        return false;
     }
 
     /**
@@ -184,7 +189,7 @@ public class SpaceGame {
      * @return true if the game is still going, false if the game is now over
      */
     public boolean touched() {
-        if (gameOver) { return false; }
+        if (isGameOver()) { return false; }
         playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f,
                 getPlayerLocation().y + 0.1f), BULLET_PIECE_SIZE_DP));
         return true;

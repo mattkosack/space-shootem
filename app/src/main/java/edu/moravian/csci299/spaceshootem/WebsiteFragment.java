@@ -29,6 +29,9 @@ public class WebsiteFragment extends Fragment {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        assert container != null;
+//        container.removeAllViews();
+//
         View rootView = inflater.inflate(R.layout.fragment_website, container, false);
 
         webView = rootView.findViewById(R.id.webView);

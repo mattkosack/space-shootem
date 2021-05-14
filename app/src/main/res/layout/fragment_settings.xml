@@ -6,7 +6,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:background="?android:windowBackground">
 
     <TextView
         android:id="@+id/musicTextView"

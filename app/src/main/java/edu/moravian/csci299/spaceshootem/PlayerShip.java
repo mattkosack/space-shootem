@@ -6,17 +6,21 @@ import java.util.List;
 
 public class PlayerShip extends Ship {
 
+
     /**
-     * Create the ship with the given initial position.
-     * @param initial the initial position
+     *
+     * @param initial
+     * @param shipSize
+     * @param width
      */
     public PlayerShip(PointF initial, float shipSize, int width) {
         super(initial, shipSize, width);
     }
 
     /**
-     * Moves the player left or right.
-     * @param isDirectionLeft the direction of movement
+     * Move the player piece based on direction and distance
+     * @param isDirectionLeft whether the player should move left or right
+     * @param distance the amount to move the player
      */
     public void move(boolean isDirectionLeft, double distance) {
         if ((super.getPosition().x + distance > super.getWidth() && isDirectionLeft) || (super.getPosition().x - distance < 0 && !isDirectionLeft)) {
