@@ -17,7 +17,7 @@ Various bugs in UI
 
 Not sure why the bulletsizedp is static, that should be changed to be more consistent with getters
 
-Maybe limit framerate, unsure if this will *really* matter
+Maybe limit framerate, unsure if this will *really* matter. Worth checking
 
 # TODOs
 Documentation
