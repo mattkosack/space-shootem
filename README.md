@@ -15,12 +15,12 @@ joystick options instea of tilt controls
 # Miscellaneous Things to Change
 Various bugs in UI
 
-Slowdowns when enemies spawn
-
-Can shoot way too much from tapping
-
 Not sure why the bulletsizedp is static, that should be changed to be more consistent with getters
 
+Maybe limit framerate, unsure if this will *really* matter
 
 # TODOs
 Documentation
+
+Fix slowdowns when enemies spawn, likely due to something with painting the canvas
+
