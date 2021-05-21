@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class GameFragment extends Fragment {
     private SensorManager sensorManager;
@@ -22,9 +23,7 @@ public class GameFragment extends Fragment {
     private SpaceGameView spaceGameView;
     private View layout;
     
-    public GameFragment() {
-        // Required empty public constructor
-    }
+    public GameFragment() { /* Required empty public constructor */ }
 
     /** Create a new game fragment */
     public static GameFragment newInstance() { return new GameFragment(); }
@@ -32,11 +31,8 @@ public class GameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        assert container != null;
-//        container.removeAllViews();
-
         layout = inflater.inflate(R.layout.fragment_game, container, false);
-        sensorManager = (SensorManager) this.getActivity().getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) Objects.requireNonNull(this.getActivity()).getSystemService(Context.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         spaceGameView = layout.findViewById(R.id.SpaceGameView);
         

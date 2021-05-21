@@ -14,7 +14,7 @@ public class SpaceGame {
     private final static Random random = new Random();
 
     /** Radius of each body piece in dp */
-    public final static float BULLET_PIECE_SIZE_DP = 5f;
+    public final static float BULLET_SIZE_DP = 5f;
 
     /** Enemy Ship radius */
     private static final float ENEMY_SIZE_DP = 10f;
@@ -71,7 +71,7 @@ public class SpaceGame {
     /**
      * @return bullet size in dp
      */
-    public float getBulletSizeDp() { return BULLET_PIECE_SIZE_DP; }
+    public float getBulletSizeDp() { return BULLET_SIZE_DP; }
 
     /**
      * @return enemy ship size in dp
@@ -103,7 +103,7 @@ public class SpaceGame {
         player = new PlayerShip(new PointF(width / 1.25f, height / 1.25f), PLAYER_SIZE_DP, width);
         score = 0;
         enemies.clear();
-        spawnEnemies(startingNumberOfEnemies + 5 * round);
+        spawnEnemies(startingNumberOfEnemies);
         Log.e("ah", "It should set the game to false");
         gameOver = false;
     }
@@ -157,7 +157,7 @@ public class SpaceGame {
         Iterator<EnemyShip> enemyShipIterator = enemies.iterator();
         while (enemyShipIterator.hasNext()) {
             EnemyShip enemy = enemyShipIterator.next();
-            if (enemy.checkShipIntersectsEnemy(getPlayerBulletLocations(), BULLET_PIECE_SIZE_DP * dpToPxFactor)) {
+            if (enemy.checkShipIntersectsEnemy(getPlayerBulletLocations(), BULLET_SIZE_DP * dpToPxFactor)) {
                 enemyShipIterator.remove();
                 score++;
             }
@@ -179,7 +179,7 @@ public class SpaceGame {
         // if all the enemies are gone, spawn in new ones
         if (enemies.size() == 0) {
             round++;
-            spawnEnemies(startingNumberOfEnemies + 5 * round);
+            spawnEnemies(startingNumberOfEnemies + (10 * round));
         }
         return false;
     }
@@ -191,7 +191,7 @@ public class SpaceGame {
     public boolean touched() {
         if (isGameOver()) { return false; }
         playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f,
-                getPlayerLocation().y + 0.1f), BULLET_PIECE_SIZE_DP));
+                getPlayerLocation().y + 0.1f), BULLET_SIZE_DP));
         return true;
     }
 
@@ -240,8 +240,8 @@ public class SpaceGame {
      */
     public void spawnEnemies(int numEnemies) {
         for (int i=0; i < numEnemies; i++) {
-            float randX = 1F + random.nextFloat() * (width - 1F);
-            float randY = 1F + random.nextFloat() * (height/2F - 1F);
+            float randX = 1f + random.nextFloat() * (width - 1f);
+            float randY = 1f + random.nextFloat() * (height/2f - 1f);
             enemies.add(new EnemyShip(new PointF(randX, randY), ENEMY_SIZE_DP, width, height));
         }
     }

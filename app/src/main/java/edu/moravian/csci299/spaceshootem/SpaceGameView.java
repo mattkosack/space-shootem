@@ -1,5 +1,6 @@
 package edu.moravian.csci299.spaceshootem;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -39,7 +41,7 @@ public class SpaceGameView extends View implements SensorEventListener {
     private final SpaceGame spaceGame;
 
     /** The difficulty settings. Each index corresponds to difficulty (i.e. index 0 is easy) */
-    private final int[] STARTING_ENEMIES = { 10, 20, 30, 40, 50 };
+    private final int[] STARTING_ENEMIES = { 20, 30, 40, 50, 70 };
 
     // Required constructors for making your own view that can be placed in a layout
     public SpaceGameView(Context context) { this(context, null);  }
@@ -129,10 +131,9 @@ public class SpaceGameView extends View implements SensorEventListener {
 //        }
         invalidate();
     }
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event){
-//        spaceGame.touched();
-//        invalidate();
         return spaceGame.touched();
     }
 
@@ -146,7 +147,6 @@ public class SpaceGameView extends View implements SensorEventListener {
         postInvalidateOnAnimation(); // automatically invalidate every frame so we get continuous playback
 
         spaceGame.update();
-        // This might have to be somewhere else
         if (spaceGame.isGameOver()) {
             if (getContext() instanceof Activity) {
                 ((AppCompatActivity) getContext())
@@ -169,7 +169,7 @@ public class SpaceGameView extends View implements SensorEventListener {
 
         // Draw the player bullets
         for (PointF bullet : spaceGame.getPlayerBulletLocations()) {
-            canvas.drawCircle(bullet.x, bullet.y, dpToPx(SpaceGame.BULLET_PIECE_SIZE_DP), playerBulletPaint);
+            canvas.drawCircle(bullet.x, bullet.y, dpToPx(spaceGame.getBulletSizeDp()), playerBulletPaint);
         }
 
         // Draw score

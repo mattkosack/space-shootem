@@ -21,19 +21,12 @@ public class GameOverFragment extends Fragment implements View.OnClickListener {
     private Button settingsView;
     private Button mainMenuView;
 
-    public GameOverFragment() {
-        // required empty public constructor
-    }
+    public GameOverFragment() { /* required empty public constructor */ }
 
-    public static GameOverFragment newInstance() {
-        return new GameOverFragment();
-    }
+    public static GameOverFragment newInstance() { return new GameOverFragment(); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        assert container != null;
-//        container.removeAllViews();
-
         // Inflate the layout for this fragment
         layout = inflater.inflate(R.layout.fragment_game_over, container, false);
 
@@ -69,7 +62,6 @@ public class GameOverFragment extends Fragment implements View.OnClickListener {
         } else if (v == layout.findViewById(R.id.settings)) {
             frag = SettingsFragment.newInstance();
         } else if (v == layout.findViewById(R.id.main_menu)) {
-            Log.e("hm", "it does get here");
             frag = IntroFragment.newInstance();
         }
         assert getFragmentManager() != null;

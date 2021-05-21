@@ -15,32 +15,20 @@ public class WebsiteFragment extends Fragment {
 
     public WebView webView;
 
-    public WebsiteFragment() {
-        // Required empty public constructor
-    }
+    public WebsiteFragment() { /* Required empty public constructor */ }
 
-    /**
-     * Create a new website fragment
-     */
-    public static WebsiteFragment newInstance() {
-        return new WebsiteFragment();
-    }
+    /** Create a new website fragment */
+    public static WebsiteFragment newInstance() { return new WebsiteFragment(); }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        assert container != null;
-//        container.removeAllViews();
-//
         View rootView = inflater.inflate(R.layout.fragment_website, container, false);
-
         webView = rootView.findViewById(R.id.webView);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.loadUrl((String) getText(R.string.web_url));
-
         webView.setWebViewClient(new WebViewClient());
-
         return rootView;
     }
 }

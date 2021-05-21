@@ -25,22 +25,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     private boolean musicOn;
 
 
-    public SettingsFragment() {
-        // Required empty public constructor
-    }
+    public SettingsFragment() { /* Required empty public constructor */ }
 
-    /**
-     * Create a new settings fragment
-     */
-    public static SettingsFragment newInstance() {
-        return new SettingsFragment();
-    }
+    /** Create a new settings fragment */
+    public static SettingsFragment newInstance() { return new SettingsFragment(); }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        assert container != null;
-//        container.removeAllViews();
-
         layout = inflater.inflate(R.layout.fragment_settings, container, false);
         settings = PreferenceManager.getDefaultSharedPreferences(getContext());
 

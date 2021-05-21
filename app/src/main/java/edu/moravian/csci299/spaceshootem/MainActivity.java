@@ -1,11 +1,14 @@
 package edu.moravian.csci299.spaceshootem;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Surface;
 
 public class MainActivity extends AppCompatActivity {
 

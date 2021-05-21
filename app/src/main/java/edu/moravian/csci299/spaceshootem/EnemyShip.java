@@ -10,14 +10,9 @@ import static edu.moravian.csci299.spaceshootem.Util.withinRange;
 
 public class EnemyShip extends Ship {
 
-    /** Direction to move ship */
-    private final double[] directions = { -1.0, 1.0 };
-
-    /** Some extra distance to move the ship */
-    private final double[] distanceLeftOrRight = { -10.0, -5.0, -2.5, -1.0, 0.0, 1.0, 2.5, 5.0, 10.0 };
-
-    /** Random generator used for direction */
-    Random rnd = new Random();
+    /** Distances and direction the ships move left/right */
+    private static final int MAX_DISTANCE = 10;
+    private static final int MIN_DISTANCE = -10;
 
     /** Dimensions of layout, used to check bounds */
     private final int height;
@@ -39,13 +34,13 @@ public class EnemyShip extends Ship {
      * @param distanceForward the speed times dp distance to move the piece forward.
      */
     public void move(double distanceForward) {
-        double distance = distanceLeftOrRight[rnd.nextInt(distanceLeftOrRight.length)];
+        double distance = (Math.random() * (MAX_DISTANCE - MIN_DISTANCE) + MIN_DISTANCE);
         if (super.getPosition().x + distance >= super.getWidth()) {
             super.setPositionX(getPosition().x - 1.0f);
         } else if (super.getPosition().x <= 0) {
             super.setPositionX(getPosition().x + 1.0f);
         } else {
-            super.setPositionX(getPosition().x += distance * directions[rnd.nextInt(directions.length)]);
+            super.setPositionX(getPosition().x += distance);
         }
         setPositionY(getPosition().y += distanceForward/4);
     }
