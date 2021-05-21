@@ -37,6 +37,9 @@ public class SpaceGame {
     /** The direction the player is moving  */
     private boolean isDirectionLeft;
 
+    /** The time of the previous touch event */
+    private long prevTouchTime = 0;
+
     /** Speed of the player ship, in dp/frame */
     private final double playerSpeed = 1.0;
 
@@ -188,10 +191,20 @@ public class SpaceGame {
      * If the screen is touched, the player ship will fire
      * @return true if the game is still going, false if the game is now over
      */
-    public boolean touched() {
+    public boolean touched(long currentTouchTime) {
+        // TODO: I can't figure out how to limit the taps right now...
+        // It's something to do with keeping track of last click, but I am tired
+        boolean canFire = currentTouchTime - prevTouchTime < 5L;
+//        Log.e("prev", String.valueOf(prevTouchTime));
+//        Log.e("curr", String.valueOf(currentTouchTime));
+        Log.e("diff", String.valueOf(currentTouchTime - prevTouchTime));
+
         if (isGameOver()) { return false; }
-        playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x + 0.1f,
-                getPlayerLocation().y + 0.1f), BULLET_SIZE_DP));
+        if (canFire) {
+            playerBulletLocations.add(new Bullet(new PointF(player.getPosition().x,
+                    getPlayerLocation().y + 0.5f), BULLET_SIZE_DP));
+        }
+        prevTouchTime = currentTouchTime;
         return true;
     }
 

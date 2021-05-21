@@ -131,10 +131,12 @@ public class SpaceGameView extends View implements SensorEventListener {
 //        }
         invalidate();
     }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event){
-        return spaceGame.touched();
+
+        return spaceGame.touched(event.getEventTime() - event.getDownTime());
     }
 
     /**
