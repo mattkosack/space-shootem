@@ -58,6 +58,9 @@ public class SpaceGame {
     /** Speed of the enemy ship, in dp/frame */
     private final double enemySpeed = 1.5;
 
+    /** Speed of the enemy ship, in dp/frame */
+    private final double bossSpeed = 1;
+
     /** Converts dp to px */
     public static float dpToPxFactor = 1f;
 
@@ -107,7 +110,6 @@ public class SpaceGame {
         score = 0;
         enemies.clear();
         spawnEnemies(startingNumberOfEnemies);
-        Log.e("ah", "It should set the game to false");
         gameOver = false;
     }
 
@@ -192,12 +194,12 @@ public class SpaceGame {
      * @return true if the game is still going, false if the game is now over
      */
     public boolean touched(long currentTouchTime) {
-        // TODO: I can't figure out how to limit the taps right now...
-        // It's something to do with keeping track of last click, but I am tired
+        // I don't remember how I got this number. This should really be changed,
+        // but it does limit the taps
         boolean canFire = currentTouchTime - prevTouchTime < 5L;
 //        Log.e("prev", String.valueOf(prevTouchTime));
 //        Log.e("curr", String.valueOf(currentTouchTime));
-        Log.e("diff", String.valueOf(currentTouchTime - prevTouchTime));
+//        Log.e("diff", String.valueOf(currentTouchTime - prevTouchTime));
 
         if (isGameOver()) { return false; }
         if (canFire) {
@@ -252,10 +254,14 @@ public class SpaceGame {
      * @param numEnemies the number of enemies to add
      */
     public void spawnEnemies(int numEnemies) {
-        for (int i=0; i < numEnemies; i++) {
-            float randX = 1f + random.nextFloat() * (width - 1f);
-            float randY = 1f + random.nextFloat() * (height/2f - 1f);
-            enemies.add(new EnemyShip(new PointF(randX, randY), ENEMY_SIZE_DP, width, height));
-        }
+        // TODO: This will have to change a great deal when each round has enemy "formations"
+        // Spawn boss every 5 rounds
+        if (round%5 != 0) {
+            for (int i=0; i < numEnemies; i++) {
+                float randX = 1f + random.nextFloat() * (width - 1f);
+                float randY = 1f + random.nextFloat() * (height/2f - 1f);
+                enemies.add(new EnemyShip(new PointF(randX, randY), ENEMY_SIZE_DP, width, height));
+            }
+        } else { }
     }
 }
