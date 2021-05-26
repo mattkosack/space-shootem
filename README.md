@@ -10,7 +10,7 @@ different weapons
 
 enemies shoot back
 
-joystick options instea of tilt controls
+joystick options instead of tilt controls
 
 # Miscellaneous Things to Change
 Various bugs in UI
@@ -23,4 +23,6 @@ Maybe limit framerate, unsure if this will *really* matter. Worth checking
 Documentation
 
 Fix slowdowns when enemies spawn, likely due to something with painting the canvas
+*NOTE: This issue will be solved when the enemies have "formations" instead of just randomly spawning
 
+Adding bosses will require changing the checks during each frame
